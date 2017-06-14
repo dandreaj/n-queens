@@ -2,6 +2,8 @@
 // It's part of the Board Visualizer
 // The only portions you need to work on are the helper functions (below)
 
+
+
 (function() {
 
   window.Board = Backbone.Model.extend({
@@ -62,6 +64,7 @@
     },
 
 
+
 /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
@@ -78,13 +81,52 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // var board = new Board();
+      // var board = new Board([[1,0,0],[0,1,0],[0,0,1]]);
+
+      var row = this.get(rowIndex);
+      var counter = 0;
+      // this.set(rowIndex)[1] = 1;
+      for (var square of row) {
+        counter += square;
+      }
+      // console.log('row:',row);
+      // console.log('counter:',counter);
+      if(counter > 1){
+        return true;
+      } else{
+        return false;
+      }
+
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var boardSize = this.get('n');
+      // console.log(board);
+
+      for(var i= 0;i<boardSize;i++){
+        if(this.hasRowConflictAt(i)){
+        return true;
+      }
+    }
+      // for( var row of board) {
+      //   if(hasRowConflictAt(row)) {
+      //     return true;
+      //   }
+      // }
+
+      // board.forEach((row,idx) => {
+      //   if(hasRowConflictAt(idx)) {
+      //     return true;
+      //   }
+      // });
+
+      //for(var i = 0; i< board;i++) {
+
+      //}
     },
 
 
