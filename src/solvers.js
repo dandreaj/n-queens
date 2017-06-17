@@ -53,11 +53,9 @@ window.countNRooksSolutions = function(n) {
         for (var c = 0; c < n; c++) {
           board.togglePiece(row, c);
           if (!board.hasAnyRooksConflicts()) {
-            // solution = board.rows();
             checkerFunction(board, row + 1);
             board.togglePiece(row, c);
           } else {
-            // checkerFunction(board,row +1);
             board.togglePiece(row, c);
           }
         }
@@ -72,62 +70,34 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  // var n = 3;
   var solution = [];
   var board = new Board({ n: n });
   var startRow = 0;
-  var startCol = 0
-  var sumOfN = 0;
+  var queenCounter = 0;
 
-  // if(n === 1){
-  //   solution = [[1]];
-  //   return solution;
-  // }
 
-  var checkerFunction = function(board, row, col) {
-    for (var c = col; c < n; c++) {
-      if (row === n) {
+  var checkerFunction = function(board, row) {
+    if (row === n) {
         return solution;
-      }
-      board.togglePiece(row, c);
-      if (!board.hasAnyQueensConflicts()) {
-        solution = board.rows();
-        checkerFunction(board, row + 1, c)
-      } else {
+    } else {
+      for (var c = 0; c < n; c++) {
         board.togglePiece(row, c);
+        if (!board.hasAnyQueensConflicts()) {
+          solution = board.rows();
+          var solutionWithNQueens = checkerFunction(board, row + 1); //will return undefined if there is not a valid solution
+          if(solutionWithNQueens){
+            return solution; //gets us out of the function
+          };
+          board.togglePiece(row, c);
+        } else {
+          board.togglePiece(row, c);
+        }
       }
-    }
-  };
+    };
+  }
 
-  checkerFunction(board, startRow, startCol);
-  // console.log("solution",solution);
-  // for(var i = 0; i<solution.length;i++){
-    // console.log('solution outside function:', solution);
-  //   for(var j =0;j<solution[i].length;j++){
-  //     sumOfN += solution[i][j];
-  //   }
-  // }
-
-  // console.log('sumofN',sumOfN);
-
-  // if(sumOfN !== n ) {
-    // console.log('sumOfN:',sumOfN);
-    // var newBoard = new Board({ n: n });
-    // solution = [];
-    // console.log(newBoard, startRow, startCol+1);
-  //   checkerFunction(newBoard, startRow, startCol+1);
-  // }
-
-
-
-  // solution.reduce(function (acc, elem) {
-  //   return (acc + elem).reduce(function (a, b) {
-  //     return a + b;
-  //   }, 0 );
-  // }, 0);
-  // console.log('solution: ', solution);
-
- console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+  checkerFunction(board, startRow);
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
 
@@ -144,11 +114,9 @@ window.countNQueensSolutions = function(n) {
         for (var c = 0; c < n; c++) {
           board.togglePiece(row, c);
           if (!board.hasAnyQueensConflicts()) {
-            // solution = board.rows();
             checkerFunction(board, row + 1);
             board.togglePiece(row, c);
           } else {
-            // checkerFunction(board,row +1);
             board.togglePiece(row, c);
           }
         }
